@@ -104,17 +104,33 @@ int main()
         filename1 = (username + ".txt");
         int n = filename1.length();
         char filename[50];
-        strcpy_s(filename, filename1.c_str());
-        remove(filename);
-        cout << "User successfully deleted!";
-        cout << "Do you want to make another action[Y/N]:";
-        cin >> response;
-        if (response == 'Y' || response == 'y') {
-            main();
+        ifstream read(username + ".txt");
+        getline(read, un);
+        if (un != username) {
+            cout << "User desn't exist or already has been deleted."<<endl;
+            cout << "Do you want to make another action[Y/N]:";
+            cin >> response;
+            if (response == 'Y' || response == 'y') {
+                main();
+            }
+            else if (response == 'N' || response == 'n') {
+                return 0;
+            }
         }
-        else if (response == 'N' || response == 'n') {
-            return 0;
+        else {
+            strcpy_s(filename, filename1.c_str());
+            remove(filename);
+            cout << "User successfully deleted!"<<endl;
+            cout << "Do you want to make another action[Y/N]:";
+            cin >> response;
+            if (response == 'Y' || response == 'y') {
+                main();
+            }
+            else if (response == 'N' || response == 'n') {
+                return 0;
+            }
         }
+       
     }
 }
 
