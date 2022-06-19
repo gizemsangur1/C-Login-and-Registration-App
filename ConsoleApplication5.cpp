@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <fstream>
 #include <string>
+#include <Windows.h>
 using namespace std;
 
 string username, un, line, filename1, password;
@@ -10,27 +11,34 @@ char password1[50], response;
 bool IsLoggedIn() {
     string username,password,pw,un;
     char password1;
-    int lgin = 0;
-    cout << "Please enter your username:";
+    int lgin = 0, wrong = 0;
+    cout << "Please enter your username:"<<endl;
     cin >> username;
     ifstream read(username + ".txt");
     getline(read, un);
     getline(read, pw);
-    if (un != username) {
-        cout << "User couldn't found.Please try again."<<endl;
-        IsLoggedIn();
+    if (un != username) {                           
+            cout << "User couldn't found." << endl;
+            return 0;
     }
     else {
        
-        cout << "Please enter your passowrd:";
+        cout << "Please enter your password:"<<endl;
         cin >> password;
-        lgin += 1;
-        return true;
+        
+        if (pw == password) {
+            lgin += 1;
+            return true;
+        }
+        else {
+            cout << "Wrong password."<<endl;
+            return 0;
+
+        }
     }
 
 }
 int action() {
-    
     cout << "Please choose an action" << endl;
     cout << "Registration(1)" << endl;
     cout << "Login(2)" << endl;
@@ -50,8 +58,8 @@ int main()
         ifstream read(username + ".txt");
         getline(read, un);
         if (username==un){
-            cout << "User is already exists.";
-            cout << "Do you want to make another action[Y/N]:";
+            cout << "User is already exists."<<endl;
+            cout << "Do you want to make another action[Y/N]:"<<endl;
             cin >> response;
             if (response == 'Y' || response == 'y') {
                 main();
@@ -67,7 +75,7 @@ int main()
             ofstream Myfile(username + ".txt");
             Myfile << username << endl << password;
             Myfile.close();
-            cout << "Do you want to make another action[Y/N]:";
+            cout << "Do you want to make another action[Y/N]:"<<endl;
             cin >> response;
             if (response == 'Y' || response == 'y') {
                 main();
@@ -83,7 +91,7 @@ int main()
             bool status = IsLoggedIn();
             if (!status) {
                 cout << "Login failed!" << endl;
-                cout << "Do you want to make another action[Y/N]:";
+                cout << "Do you want to make another action[Y/N]:"<<endl;
                 cin >> response;
                 if (response == 'Y' || response == 'y') {
                     main();
@@ -96,7 +104,7 @@ int main()
             else {
                 cout << "Successfully logged in!" << endl;
                 lgin +=1;
-                cout << "Do you want to make another action[Y/N]:";
+                cout << "Do you want to make another action[Y/N]:"<<endl;
                 cin >> response;
                 if (response == 'Y' || response == 'y') {
                     main();
@@ -124,7 +132,7 @@ int main()
         getline(read, un);
         if (un != username) {
             cout << "User desn't exist or already has been deleted."<<endl;
-            cout << "Do you want to make another action[Y/N]:";
+            cout << "Do you want to make another action[Y/N]:"<<endl;
             cin >> response;
             if (response == 'Y' || response == 'y') {
                 main();
@@ -137,7 +145,7 @@ int main()
             strcpy_s(filename, filename1.c_str());
             remove(filename);
             cout << "User successfully deleted!"<<endl;
-            cout << "Do you want to make another action[Y/N]:";
+            cout << "Do you want to make another action[Y/N]:"<<endl;
             cin >> response;
             if (response == 'Y' || response == 'y') {
                 main();
