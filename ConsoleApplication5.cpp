@@ -3,8 +3,14 @@
 #include <string>
 using namespace std;
 
+string username, un, line, filename1, password;
+int offset, choice, status, lgin = 0, uppernum, lowernum, special, digitnum;
+char password1[50], response;
+
 bool IsLoggedIn() {
     string username,password,pw,un;
+    char password1;
+    int lgin = 0;
     cout << "Please enter your username:";
     cin >> username;
     ifstream read(username + ".txt");
@@ -18,27 +24,26 @@ bool IsLoggedIn() {
        
         cout << "Please enter your passowrd:";
         cin >> password;
+        lgin += 1;
         return true;
     }
 
 }
+int action() {
+    
+    cout << "Please choose an action" << endl;
+    cout << "Registration(1)" << endl;
+    cout << "Login(2)" << endl;
+    cout << "Delete the user(3)" << endl;
+    cout << "Exit(4)" << endl;
+    cin >> choice;
+    return 0;
+}
 
 int main()
 {
-    string username, un;
-    int offset;
-    string line;
-    string password;
-    int choice;
-    int status;
-    string filename1;
-    char response;
+    action();
 
-    cout << "Please choose an action"<<endl;
-    cout << "Registration(1)"<<endl;
-    cout << "Login(2)"<<endl;
-    cout << "Delete the user(3)" << endl;
-    cin >> choice;
     if (choice == 1) {
         cout << "Please select a username:" << endl;
         cin >> username;
@@ -58,6 +63,7 @@ int main()
         else {
             cout << "Please select a password:" << endl;
             cin >> password;
+            strcpy_s(password1, password.c_str());
             ofstream Myfile(username + ".txt");
             Myfile << username << endl << password;
             Myfile.close();
@@ -73,30 +79,40 @@ int main()
         
     }
     else if (choice == 2) {
-        bool status = IsLoggedIn();
-        if (!status) {
-            cout << "Login failed!"<<endl;
-            cout << "Do you want to make another action[Y/N]:";
-            cin >> response;
-            if (response == 'Y' || response == 'y') {
-                main();
+        if (lgin == 0) {
+            bool status = IsLoggedIn();
+            if (!status) {
+                cout << "Login failed!" << endl;
+                cout << "Do you want to make another action[Y/N]:";
+                cin >> response;
+                if (response == 'Y' || response == 'y') {
+                    main();
+                }
+                else if (response == 'N' || response == 'n') {
+                    return 0;
+                }
+
             }
-            else if (response == 'N' || response == 'n') {
-                return 0;
+            else {
+                cout << "Successfully logged in!" << endl;
+                lgin +=1;
+                cout << "Do you want to make another action[Y/N]:";
+                cin >> response;
+                if (response == 'Y' || response == 'y') {
+                    main();
+                }
+                else if (response == 'N' || response == 'n') {
+
+                    return 0;
+                }
             }
-            
         }
         else {
-            cout << "Successfully logged in!"<<endl;
-            cout << "Do you want to make another action[Y/N]:";
-            cin >> response;
-            if (response == 'Y' || response == 'y') {
-                main();
-            }
-            else if (response == 'N' || response == 'n') {
-                return 0;
-            }
+            cout << "You are already logged in. Please restart the program for another user login."<<endl; 
+            main();
         }
+       
+      
     }
     else if(choice==3) {
         cout << "Enter the username wanted to delete:" << endl;
