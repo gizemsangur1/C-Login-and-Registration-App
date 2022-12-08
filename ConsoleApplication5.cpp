@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <fstream>
+#include <stdio.h>
 #include <string>
 #include <Windows.h>
 using namespace std;
@@ -131,7 +132,7 @@ int main()
         ifstream read(username + ".txt");
         getline(read, un);
         if (un != username) {
-            cout << "User desn't exist or already has been deleted."<<endl;
+            cout << "User doesn't exist or already has been deleted."<<endl;
             cout << "Do you want to make another action[Y/N]:"<<endl;
             cin >> response;
             if (response == 'Y' || response == 'y') {
@@ -140,9 +141,11 @@ int main()
             else if (response == 'N' || response == 'n') {
                 return 0;
             }
+            read.close();
         }
         else {
             strcpy_s(filename, filename1.c_str());
+            read.close();
             remove(filename);
             cout << "User successfully deleted!"<<endl;
             cout << "Do you want to make another action[Y/N]:"<<endl;
